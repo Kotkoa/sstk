@@ -13,11 +13,12 @@ const FileUpload = () => {
   const [names, setNames] = useState(['filename.jpg'])
 
   const maxFilecount = (e) => {
+    const maxCount = 10
     const arrayFiles = e.target.files
-    if (arrayFiles.length > 5) {
+    if (arrayFiles.length > maxCount) {
       e.target.value = null
       // eslint-disable-next-line no-alert
-      alert('Only 5 images max')
+      alert('Only 10 images max')
       return false
     }
     return true

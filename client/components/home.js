@@ -8,8 +8,8 @@ const Home = () => {
         Get AI keywords for free
       </h4>
       <p className="Title text-center text-xs text-gray-600 leading-tight mb-4 italic font-light leading-tight w-64 mx-auto">
-        * - limits: 5 files per min, jpeg or png images can be no larger than 1 mb and can be no
-        larger than 2000 pixels in width or height
+        * - limits: 1 file per 25 seconds, jpeg or png images can be no larger than 1 mb and can be
+        no larger than 2000 pixels in width or height
       </p>
       <FileUpload />
     </div>
