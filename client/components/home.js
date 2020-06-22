@@ -1,18 +1,17 @@
-import React, { useState } from 'react'
-import Head from './head'
-// import wave from '../assets/images/wave.jpg'
+import React from 'react'
+import FileUpload from './fileupload'
 
 const Home = () => {
-  const [counter, setCounterNew] = useState(0)
-
   return (
-    <div>
-      <Head title="Hello" />
-      <img alt="wave" src="images/wave.jpg" />
-      <button type="button" onClick={() => setCounterNew(counter + 1)}>
-        updateCounter
-      </button>
-      <div> Hello World Dashboard {counter} </div>
+    <div className="bg-gray-100 py-6 h-screen">
+      <h4 className="Title text-center text-xl text-gray-900 font-semibold leading-tight mb-2">
+        Get AI keywords for free
+      </h4>
+      <p className="Title text-center text-xs text-gray-600 leading-tight mb-4 italic font-light leading-tight w-64 mx-auto">
+        * - limits: 5 files per min, jpeg or png images can be no larger than 1 mb and can be no
+        larger than 2000 pixels in width or height
+      </p>
+      <FileUpload />
     </div>
   )
 }

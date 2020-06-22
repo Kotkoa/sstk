@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
 import express from 'express'
 import path from 'path'
 import cors from 'cors'
+import sstk from 'shutterstock-api'
 import bodyParser from 'body-parser'
 import sockjs from 'sockjs'
 import { renderToStaticNodeStream } from 'react-dom/server'
@@ -11,6 +13,10 @@ import config from './config'
 import Html from '../client/html'
 
 const Root = () => ''
+
+const SHUTTERSTOCK_API_TOKEN =
+  'v2/MTI4ZTAtNzM2OGMtMTUyM2ItYWE4ZDUtMDkwMjMtM2U4OWIvMTA5NzQ5MjkyL2N1c3RvbWVyLzMvSTVoUWtJcV9KWXcyWlgzNnY3UkFEQjhhakhfSFNtQ041RWVvYWdraWRiRUJiU3pJcTRVNnAyd05ESjRsdENzT1V2X0FlSkY5WDF2aE93NlNXT0NDTnNjTjdsMWJ2czZJYnlOYjhFMnl4eHgzbWd4WFdPLVBFcU1sWmZBbDhZYkkySm8wczVUV1pzRE9Ua3JYcUZyNDNWVE85R3lsZXlQdW9CY19FX2tEbi1PT0F1ZU5mOHpGdjQxS1hMUklWcGJiRkFMR2xaeTBpWnBTbTZtV2ozOUxnZw'
+const computerVisionApi = new sstk.ComputerVisionApi()
 
 try {
   // eslint-disable-next-line import/no-unresolved
@@ -40,6 +46,32 @@ const middleware = [
 ]
 
 middleware.forEach((it) => server.use(it))
+
+// here is my code
+
+server.post('/api/v1/keyword/', (req, res) => {
+  try {
+    const { url } = req.body
+    console.log('catch')
+    sstk.setAccessToken(SHUTTERSTOCK_API_TOKEN)
+
+    const body = new sstk.ImageCreateRequest(url)
+    computerVisionApi
+      .uploadImage(body)
+      .then((data) => {
+        console.log('c-vision.upload:', data.upload_id)
+        return computerVisionApi.getKeywords(data.upload_id)
+      })
+      .then((data) => {
+        console.log('c-vision.key:', data)
+        res.json(data)
+      })
+  } catch (_err) {
+    res.send(_err)
+  }
+})
+
+// end of my code
 
 server.use('/api/', (req, res) => {
   res.status(404)

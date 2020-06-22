@@ -23,7 +23,6 @@
     "watch:server": "nodemon --legacy-watch start.js --watch server --watch client --exec \"npm run lint:server  --scripts-prepend-node-path && node\"",
     "build:prod": "cross-env NODE_ENV=production webpack --config webpack.production.config.js --progress --profile --colors",
     "build:ssr": "cross-env NODE_ENV=production webpack --config webpack.ssr.config.js --progress --profile --colors",
-
     "heroku-postbuild": "yarn run build:prod",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -75,6 +74,7 @@
     "@storybook/addon-viewport": "^5.3.19",
     "@storybook/cli": "^5.3.19",
     "autoprefixer": "^9.8.0",
+    "axios": "^0.19.2",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.1.0",
     "babel-jest": "^26.0.1",
@@ -116,6 +116,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "shutterstock-api": "^1.0.24",
     "sockjs": "^0.3.20",
     "sockjs-client": "^1.4.0",
     "string-replace-webpack-plugin": "^0.1.3",
@@ -169,7 +170,8 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "*.hot-update.json"
+      "*.hot-update.json",
+      "client/*"
     ]
   },
   "husky": {
