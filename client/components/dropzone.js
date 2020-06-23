@@ -2,8 +2,9 @@ import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 
 const DropZone = () => {
+  // eslint-disable-next-line no-unused-vars
   const onDrop = useCallback((acceptedFiles) => {
-    return acceptedFiles // Do something with the files
+    // Do something with the files
   }, [])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
