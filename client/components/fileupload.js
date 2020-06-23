@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useDropzone } from 'react-dropzone'
 import axios from 'axios'
 import {
   setDisplayWords,
@@ -13,7 +12,7 @@ import {
   addName
 } from '../redux/reducers/states'
 
-const FileUpload = ({ onDrop, accept }) => {
+const FileUpload = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -21,11 +20,6 @@ const FileUpload = ({ onDrop, accept }) => {
     dispatch(setName('filename.jpg'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept
-  })
 
   const url = useSelector((store) => store.state.url)
 
@@ -122,20 +116,6 @@ const FileUpload = ({ onDrop, accept }) => {
           >
             Keywords
           </button>
-        </div>
-        <div className="DnD">
-          <div {...getRootProps()}>
-            <input className="dropzone-input" {...getInputProps()} />
-            <div className="text-center">
-              {isDragActive ? (
-                <p className="dropzone-content">Release to drop the files here</p>
-              ) : (
-                <p className="dropzone-content">
-                  Drag &apos;n&apos; drop some files here, or click to select files
-                </p>
-              )}
-            </div>
-          </div>
         </div>
       </div>
     </div>
