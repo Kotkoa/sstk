@@ -1,16 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useDropzone } from 'react-dropzone'
 import axios from 'axios'
-import { setDisplayWords, setUrl, addUri, addKeywords } from '../redux/reducers/states'
+import {
+  setDisplayWords,
+  setUrl,
+  addUri,
+  addKeywords,
+  setGrid,
+  addGrid,
+  setName,
+  addName
+} from '../redux/reducers/states'
 
-const FileUpload = () => {
+const FileUpload = ({ onDrop, accept }) => {
   const dispatch = useDispatch()
 
-  const displayWords = useSelector((store) => store.state.displayWords)
-  const url = useSelector((store) => store.state.url)
+  useEffect(() => {
+    dispatch(setGrid([0]))
+    dispatch(setName('filename.jpg'))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  const [tble, setTble] = useState([0])
-  const [names, setNames] = useState(['filename.jpg'])
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept
+  })
+
+  const url = useSelector((store) => store.state.url)
 
   const maxFilecount = (e) => {
     const maxCount = 10
@@ -48,9 +65,11 @@ const FileUpload = () => {
     const arr = new Array(col).fill(0).map((it, id) => id)
     dispatch(setUrl())
     dispatch(setDisplayWords())
+    dispatch(setGrid([0]))
+    dispatch(setName(['filename.jpg']))
     const snames = arr.map((it, id) => e.target.files[id].name)
-    setTble(arr)
-    setNames(snames)
+    dispatch(addGrid(arr))
+    dispatch(addName(snames))
     setSrc(arr, images)
   }
 
@@ -61,7 +80,6 @@ const FileUpload = () => {
 
     async function load() {
       for (let i = 0; i < url.length; i += 1) {
-        // eslint-disable-next-line no-console
         const slice2Uri = url[i].slice(url[i].indexOf('data:image/jpeg;base64,') + 23)
         try {
           // eslint-disable-next-line no-await-in-loop
@@ -85,7 +103,7 @@ const FileUpload = () => {
   }
 
   return (
-    <div className="Body flex flex-col max-w-3xl mx-auto align-middle">
+    <div className="Body flex flex-col mx-auto align-middle">
       <div className="Input mb-4 px-2">
         <div className="buttons flex justify-between pb-4">
           <input
@@ -105,26 +123,20 @@ const FileUpload = () => {
             Keywords
           </button>
         </div>
-        {tble.map((it, id) => {
-          return (
-            <div key={it} className="productCard flex items-center pb-2">
-              <img
-                className="shadow-md rounded-md h-40 w-64 object-cover"
-                src={url[id] || 'images/wave.jpg'}
-                alt={names[id]}
-              />
-              <div className="TextField px-4">
-                <div className="title pb-4">{names[id]}</div>
-                <div className="mb-2">
-                  <p className="text-gray-800">
-                    {displayWords[id] ||
-                      'example, drink, cup, coffee, white, natural, beverage, wooden, table, hot, wood, food, morning, fresh, view, tea, mug, nature, breakfast, concept, holiday, brown, space, caffeine, lifestyle, top, isolated, summer, aroma'}
-                  </p>
-                </div>
-              </div>
+        <div className="DnD">
+          <div {...getRootProps()}>
+            <input className="dropzone-input" {...getInputProps()} />
+            <div className="text-center">
+              {isDragActive ? (
+                <p className="dropzone-content">Release to drop the files here</p>
+              ) : (
+                <p className="dropzone-content">
+                  Drag &apos;n&apos; drop some files here, or click to select files
+                </p>
+              )}
             </div>
-          )
-        })}
+          </div>
+        </div>
       </div>
     </div>
   )
