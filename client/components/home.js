@@ -1,7 +1,7 @@
 import React from 'react'
 import FileUpload from './fileupload'
 import ImgKeywords from './imgkeywords'
-// import DropZone from './dropzone'
+// import DropImages from './dndzone'
 
 const Home = () => {
   return (
@@ -15,7 +15,7 @@ const Home = () => {
           be no larger than 2000 pixels in width or height
         </p>
         <FileUpload />
-        {/* <DropZone /> */}
+        {/* <DropImages /> */}
         <ImgKeywords />
       </div>
     </div>

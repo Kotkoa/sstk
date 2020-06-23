@@ -89,7 +89,7 @@ const FileUpload = () => {
           console.log(err)
         }
         // eslint-disable-next-line no-await-in-loop
-        await timer(25000)
+        await timer(26000)
       }
     }
 
@@ -98,8 +98,8 @@ const FileUpload = () => {
 
   return (
     <div className="Body flex flex-col mx-auto align-middle">
-      <div className="Input mb-4 px-2">
-        <div className="buttons flex justify-between pb-4">
+      <div className="Input px-2">
+        <div className="buttons flex justify-between mb-4">
           <input
             type="file"
             multiple
