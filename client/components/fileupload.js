@@ -9,7 +9,8 @@ import {
   setGrid,
   addGrid,
   setName,
-  addName
+  addName,
+  replaceKeyword
 } from '../redux/reducers/states'
 
 const FileUpload = () => {
@@ -60,10 +61,10 @@ const FileUpload = () => {
     dispatch(setUrl())
     dispatch(setDisplayWords())
     dispatch(setGrid([0]))
-    dispatch(setName(['filename.jpg']))
     const snames = arr.map((it, id) => e.target.files[id].name)
     dispatch(addGrid(arr))
     dispatch(addName(snames))
+    arr.map(() => dispatch(addKeywords('ready for Keywords')))
     setSrc(arr, images)
   }
 
@@ -75,6 +76,9 @@ const FileUpload = () => {
     async function load() {
       for (let i = 0; i < url.length; i += 1) {
         const slice2Uri = url[i].slice(url[i].indexOf('data:image/jpeg;base64,') + 23)
+        dispatch(replaceKeyword(i, 'Fetching the keywords'))
+        // eslint-disable-next-line no-await-in-loop
+        await timer(26000)
         try {
           // eslint-disable-next-line no-await-in-loop
           const { data: res } = await axios.post('/api/v1/keyword', {
@@ -83,13 +87,11 @@ const FileUpload = () => {
           // eslint-disable-next-line no-console
           console.log(typeof res === 'undefined' || 'success')
           const words = typeof res !== 'undefined' ? res.data.join(', ') : 'null'
-          dispatch(addKeywords(words))
+          dispatch(replaceKeyword(i, words))
         } catch (err) {
           // eslint-disable-next-line no-console
           console.log(err)
         }
-        // eslint-disable-next-line no-await-in-loop
-        await timer(26000)
       }
     }
 

@@ -5,7 +5,7 @@ import ImgKeywords from './imgkeywords'
 
 const Home = () => {
   return (
-    <div className="Body h-screen">
+    <div className="Body bg-gray-100 min-h-screen">
       <div className="max-w-3xl mx-auto py-6 align-middle">
         <h4 className="Title text-center text-xl text-gray-900 font-semibold leading-tight mb-2">
           Get AI keywords for free

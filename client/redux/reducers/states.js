@@ -6,6 +6,7 @@ const ADD_KEYWORD = 'ADD_KEYWORD'
 const ADD_URI = 'ADD_URI'
 const SET_GRID = 'SET_GRID'
 const ADD_GRID = 'ADD_GRID'
+const CHANGE_KEYWORD = 'CHANGE_KEYWORD'
 
 const initialState = {
   displayWords: [],
@@ -26,6 +27,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         displayWords: [...state.displayWords, action.words]
+      }
+
+    case CHANGE_KEYWORD:
+      return {
+        ...state,
+        displayWords: [...state.displayWords, state.displayWords.splice(action.id, 1, action.words)]
       }
 
     case SET_NAME:
@@ -76,6 +83,10 @@ export function setDisplayWords() {
 
 export function addKeywords(words) {
   return { type: ADD_KEYWORD, words }
+}
+
+export function replaceKeyword(id, words) {
+  return { type: CHANGE_KEYWORD, id, words }
 }
 
 export function setUrl() {
