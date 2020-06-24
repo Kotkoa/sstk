@@ -9,7 +9,7 @@ const ADD_GRID = 'ADD_GRID'
 const CHANGE_KEYWORD = 'CHANGE_KEYWORD'
 
 const initialState = {
-  displayWords: [],
+  displayWords: {},
   url: [],
   name: [],
   grid: []
@@ -20,19 +20,19 @@ export default (state = initialState, action) => {
     case SET_DISPLAYWORDS:
       return {
         ...state,
-        displayWords: []
+        displayWords: {}
       }
 
     case ADD_KEYWORD:
       return {
         ...state,
-        displayWords: [...state.displayWords, action.words]
+        displayWords: { ...state.displayWords, [action.id]: action.words }
       }
 
     case CHANGE_KEYWORD:
       return {
         ...state,
-        displayWords: [...state.displayWords, state.displayWords.splice(action.id, 1, action.words)]
+        displayWords: { ...state.displayWords, [action.id]: action.words }
       }
 
     case SET_NAME:
@@ -77,12 +77,11 @@ export default (state = initialState, action) => {
 }
 
 export function setDisplayWords() {
-  const any = null
-  return { type: SET_DISPLAYWORDS, any }
+  return { type: SET_DISPLAYWORDS }
 }
 
-export function addKeywords(words) {
-  return { type: ADD_KEYWORD, words }
+export function addKeywords(id, words) {
+  return { type: ADD_KEYWORD, id, words }
 }
 
 export function replaceKeyword(id, words) {

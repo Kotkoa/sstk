@@ -1,10 +1,9 @@
-/* eslint-disable no-console */
 import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 
 const DropImages = () => {
   const onDrop = useCallback((acceptedFiles) => {
-    console.log(acceptedFiles) // Do something with the files
+    console.log(acceptedFiles)
   }, [])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
   return (
