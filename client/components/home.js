@@ -11,8 +11,8 @@ const Home = () => {
           Get AI keywords for free
         </h4>
         <p className="container-body__description text-center text-xs text-gray-600 mb-4 italic font-light leading-tight w-64 mx-auto">
-          * - limits: 1 file per 25 seconds, jpeg or png images can be no larger than 1 mb and can
-          be no larger than 2000 pixels in width or height
+          * - limits: jpeg or png images can be no larger than 1 mb and can be no larger than 2000
+          pixels in width or height, delay up to 25 seconds
         </p>
         <FileUpload />
         {/* <DropImages /> */}

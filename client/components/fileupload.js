@@ -56,7 +56,8 @@ const FileUpload = () => {
     const snames = arr.map((it, id) => e.target.files[id].name)
     dispatch(setUrl())
     dispatch(setDisplayWords())
-    dispatch(setGrid([0]))
+    // dispatch(setGrid([0]))
+
     dispatch(addGrid(arr))
     dispatch(addName(snames))
     arr.forEach((it, id) => {
