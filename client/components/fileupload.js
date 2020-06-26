@@ -21,7 +21,7 @@ const FileUpload = () => {
   useEffect(() => {
     dispatch(setGrid([0]))
     dispatch(setName('filename.jpg'))
-  }, [])
+  }, [dispatch])
 
   const url = useSelector((store) => store.state.url)
 
