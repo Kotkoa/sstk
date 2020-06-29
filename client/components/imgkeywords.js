@@ -6,6 +6,7 @@ const EXAMPLE_KEYWORDS =
 
 const ImgKeywords = () => {
   const list = useSelector((store) => store.state.list)
+
   return (
     <div className="container-list px-2">
       {list.map((img) => (

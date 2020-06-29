@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
-import { clearList, addList, replaceKeyword } from '../redux/reducers/states'
+import { clearList, addList, replaceKeyword, setMsg } from '../redux/reducers/states'
 
 const FileUpload = () => {
   const IMAGE_FILES = '.jpg, .jpeg, .png'
@@ -13,14 +13,14 @@ const FileUpload = () => {
   }, [dispatch])
 
   const list = useSelector((store) => store.state.list)
+  const message = useSelector((store) => store.state.message)
 
   const maxFilecount = (e) => {
     const maxCount = 10
     const arrayFiles = e.target.files
     if (arrayFiles.length > maxCount) {
       e.target.value = null
-      dispatch(replaceKeyword(0, 'Hey! hey! hey! Only 10 images max!! Please, make anoser choise.'))
-      // alert('Hey! hey! hey! Only 10 images max!! Please, make anoser choise.')
+      dispatch(setMsg('Hey! hey! hey! Only 10 images max!! Please, make anoser choise.'))
       return false
     }
     return true
@@ -79,6 +79,19 @@ const FileUpload = () => {
 
   return (
     <div className="container-input flex flex-col mx-auto align-middle px-2">
+      <div className="relative flex justify-center">
+        <button
+          type="button"
+          className={`container-list__message ${
+            message === 'none'
+              ? 'hidden'
+              : 'flex px-6 py-2 rounded-full bg-orange-300 border border-orange-600 justify-center items-center shadow-md absolute'
+          }`}
+          onClick={() => dispatch(setMsg('none'))}
+        >
+          {message}
+        </button>
+      </div>
       <div className="container-input__buttons flex justify-between mb-4">
         <input
           type="file"

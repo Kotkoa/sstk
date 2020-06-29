@@ -1,9 +1,11 @@
 const CLEAR_LIST = 'CLEAR_LIST'
 const ADD_LIST = 'ADD_LIST'
 const CHANGE_KEYWORD = 'CHANGE_KEYWORD'
+const SET_MSG = 'SET_MSG'
 
 const initialState = {
-  list: []
+  list: [],
+  message: 'none'
 }
 
 export default (state = initialState, action) => {
@@ -42,6 +44,12 @@ export default (state = initialState, action) => {
       }
     }
 
+    case SET_MSG:
+      return {
+        ...state,
+        message: action.text
+      }
+
     default:
       return state
   }
@@ -58,4 +66,8 @@ export function addList(arr) {
 
 export function replaceKeyword(id, words) {
   return { type: CHANGE_KEYWORD, id, words }
+}
+
+export function setMsg(text) {
+  return { type: SET_MSG, text }
 }
