@@ -2,68 +2,52 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
-import {
-  setDisplayWords,
-  setUrl,
-  addUri,
-  addKeywords,
-  setGrid,
-  addGrid,
-  setName,
-  addName,
-  replaceKeyword
-} from '../redux/reducers/states'
+import { clearList, addList, replaceKeyword } from '../redux/reducers/states'
 
 const FileUpload = () => {
   const IMAGE_FILES = '.jpg, .jpeg, .png'
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(setGrid([0]))
-    dispatch(setName('filename.jpg'))
+    dispatch(clearList())
   }, [dispatch])
 
-  const url = useSelector((store) => store.state.url)
+  const list = useSelector((store) => store.state.list)
 
   const maxFilecount = (e) => {
     const maxCount = 10
     const arrayFiles = e.target.files
     if (arrayFiles.length > maxCount) {
       e.target.value = null
-      alert('Only 10 images max')
+      dispatch(replaceKeyword(0, 'Hey! hey! hey! Only 10 images max!! Please, make anoser choise.'))
+      // alert('Hey! hey! hey! Only 10 images max!! Please, make anoser choise.')
       return false
     }
     return true
   }
 
   const getBase64 = (file) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const reader = new FileReader()
-      reader.readAsDataURL(file)
       reader.onload = () => {
-        dispatch(addUri(reader.result))
-        resolve(reader.result)
+        const obj = {
+          data: reader.result,
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          word: 'ready for Keywords'
+        }
+        dispatch(addList(obj))
+        return resolve(obj)
       }
-      reader.onerror = (error) => reject(error)
+      reader.readAsDataURL(file)
     })
   }
 
   const onChange = (e) => {
     maxFilecount(e)
     const images = e.target.files
-    const col = images.length
-    const arr = new Array(col).fill(0).map((it, id) => id)
-    const snames = arr.map((it, id) => e.target.files[id].name)
-    dispatch(setUrl())
-    dispatch(setDisplayWords())
-    // dispatch(setGrid([0]))
-
-    dispatch(addGrid(arr))
-    dispatch(addName(snames))
-    arr.forEach((it, id) => {
-      dispatch(addKeywords(id, 'ready for Keywords'))
-      getBase64(images[id])
-    })
+    Object.keys(images).forEach((it, id) => getBase64(images[id]))
   }
 
   const onClick = async () => {
@@ -72,8 +56,10 @@ const FileUpload = () => {
     }
 
     async function load() {
-      for (let i = 0; i < url.length; i += 1) {
-        const slice2Uri = url[i].slice(url[i].indexOf('data:image/jpeg;base64,') + 23)
+      for (let i = 0; i < list.length; i += 1) {
+        const str = list[i].data
+        const removePrefix = ';base64,'
+        const slice2Uri = str.slice(str.indexOf(removePrefix) + removePrefix.length)
         dispatch(replaceKeyword(i, 'Fetching the keywords'))
         if (i > 0) await timer(25000)
         try {
@@ -83,7 +69,7 @@ const FileUpload = () => {
           const words = typeof res !== 'undefined' ? res.data.join(', ') : 'No respond'
           dispatch(replaceKeyword(i, words))
         } catch (err) {
-          console.log(err)
+          // console.log(err)
         }
       }
     }

@@ -52,7 +52,7 @@ middleware.forEach((it) => server.use(it))
 server.post('/api/v1/keyword/', (req, res) => {
   try {
     const { url } = req.body
-    console.log('catch')
+    console.log('catch', url)
     sstk.setAccessToken(SHUTTERSTOCK_API_TOKEN)
 
     const body = new sstk.ImageCreateRequest(url)
