@@ -20,7 +20,7 @@ const FileUpload = () => {
     const arrayFiles = e.target.files
     if (arrayFiles.length > maxCount) {
       e.target.value = null
-      dispatch(setMsg('Hey! hey! hey! Only 10 images max!! Please, make anoser choise.'))
+      dispatch(setMsg('Hey! hey! hey! Only 10 images max!! Please, make another choice.'))
       return false
     }
     return true
@@ -78,21 +78,25 @@ const FileUpload = () => {
   }
 
   return (
-    <div className="container-input flex flex-col mx-auto align-middle px-2">
-      <div className="relative flex justify-center">
-        <button
-          type="button"
-          className={`container-list__message ${
+    <div className="container-input  sm:px-2">
+      <div className="relative flex items-center justify-center">
+        <div
+          className={`${
             message === 'none'
               ? 'hidden'
-              : 'flex px-6 py-2 rounded-full bg-orange-300 border border-orange-600 justify-center items-center shadow-md absolute'
+              : 'flex px-6 py-2 rounded-full bg-orange-300 border border-orange-600 items-center shadow-md absolute'
           }`}
-          onClick={() => dispatch(setMsg('none'))}
         >
           {message}
-        </button>
+          <button
+            type="button"
+            aria-label="Mute volume"
+            className="absolute z-10 h-screen w-screen"
+            onClick={() => dispatch(setMsg('none'))}
+          />
+        </div>
       </div>
-      <div className="container-input__buttons flex justify-between mb-4">
+      <div className="container-input__buttons sm:flex sm:justify-between">
         <input
           type="file"
           multiple
@@ -100,12 +104,12 @@ const FileUpload = () => {
           id="file-selector"
           accept={IMAGE_FILES}
           onChange={onChange}
-          className=""
+          className="mb-2"
         />
         <button
           type="button"
           onClick={onClick}
-          className="border border-gray-600 rounded-sm h-8 px-2 hover:bg-gray-300 bg-gray-200"
+          className="border border-gray-600 rounded-sm h-8 px-2 hover:bg-gray-300 bg-gray-200 mb-2"
         >
           Keywords
         </button>

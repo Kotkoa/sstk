@@ -8,19 +8,22 @@ const ImgKeywords = () => {
   const list = useSelector((store) => store.state.list)
 
   return (
-    <div className="container-list px-2">
+    <div className="container-list sm:px-2">
       {list.map((img) => (
-        <div key={img.size} className="card-one-file flex items-center pb-2">
+        <div key={img.size} className="card-one-file sm:flex sm:items-center pb-2">
           <img
-            className="card-image hadow-lg rounded-md h-40 w-64 object-cover"
+            className="card-images card-images h-64 object-cover w-full sm:hidden"
             src={img.data || 'images/wave.jpg'}
             alt={img.name}
           />
-          <div className="card-textfield px-4">
-            <div className="card-textfield__file-name pb-6">{img.name || 'photo.jpg'}</div>
-            <div className="card-textfield__ mb-2">
-              <p className="text-gray-800">{img.word || EXAMPLE_KEYWORDS}</p>
-            </div>
+          <img
+            className="card-images hidden sm:flex shadow-md rounded-md h-40 w-64 object-cover"
+            src={img.data || 'images/wave.jpg'}
+            alt={img.name}
+          />
+          <div className="card-textfield p-2">
+            <p className="card__filename hidden sm:block mb-6">{img.name || 'photo.jpg'}</p>
+            <p className="text-gray-800">{img.word || EXAMPLE_KEYWORDS}</p>
           </div>
         </div>
       ))}
