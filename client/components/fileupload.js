@@ -47,6 +47,7 @@ const FileUpload = () => {
   const onChange = (e) => {
     maxFilecount(e)
     const images = e.target.files
+    dispatch(clearList())
     Object.keys(images).forEach((it, id) => getBase64(images[id]))
   }
 
