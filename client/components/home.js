@@ -18,7 +18,7 @@ const Home = () => {
     return () => {
       document.removeEventListener('click', cb)
     }
-  })
+  }, [dispatch])
 
   return (
     <div
