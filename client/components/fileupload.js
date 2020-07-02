@@ -13,7 +13,6 @@ const FileUpload = () => {
   }, [dispatch])
 
   const list = useSelector((store) => store.state.list)
-  const message = useSelector((store) => store.state.message)
 
   const maxFilecount = (e) => {
     const maxCount = 10
@@ -80,23 +79,6 @@ const FileUpload = () => {
 
   return (
     <div className="container-input  sm:px-2">
-      <div className="relative flex items-center justify-center">
-        <div
-          className={`${
-            message === 'none'
-              ? 'hidden'
-              : 'flex px-6 py-2 rounded-full bg-orange-300 border border-orange-600 items-center shadow-md absolute'
-          }`}
-        >
-          {message}
-          <button
-            type="button"
-            aria-label="Mute volume"
-            className="absolute z-10 h-screen w-screen"
-            onClick={() => dispatch(setMsg('none'))}
-          />
-        </div>
-      </div>
       <div className="container-input__buttons sm:flex sm:justify-between">
         <input
           type="file"
