@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
-import { clearList, addList, replaceKeyword, setMsg } from '../redux/reducers/states'
+import { clearList, addList, replaceKeyword, setMsg, maxFilecount } from '../redux/reducers/states'
 
 const FileUpload = () => {
   const IMAGE_FILES = '.jpg, .jpeg, .png'
@@ -14,16 +14,16 @@ const FileUpload = () => {
 
   const list = useSelector((store) => store.state.list)
 
-  const maxFilecount = (e) => {
-    const maxCount = 10
-    const arrayFiles = e.target.files
-    if (arrayFiles.length > maxCount) {
-      e.target.value = null
-      dispatch(setMsg('Hey! hey! hey! Only 10 images max!! Please, make another choice.'))
-      return false
-    }
-    return true
-  }
+  // const maxFilecount = (e) => {
+  //   const maxCount = 10
+  //   const arrayFiles = e.target.files
+  //   if (arrayFiles.length > maxCount) {
+  //     e.target.value = null
+  //     dispatch(setMsg('Hey! hey! hey! Only 10 images max!! Please, make another choice.'))
+  //     return false
+  //   }
+  //   return true
+  // }
 
   const getBase64 = (file) => {
     return new Promise((resolve) => {
@@ -44,7 +44,9 @@ const FileUpload = () => {
   }
 
   const onChange = (e) => {
-    maxFilecount(e)
+    if (maxFilecount(e)) {
+      dispatch(setMsg('Hey! Only 10 images max! Please, make another choice.'))
+    }
     const images = e.target.files
     dispatch(clearList())
     Object.keys(images).forEach((it, id) => getBase64(images[id]))
@@ -55,7 +57,7 @@ const FileUpload = () => {
       return new Promise((res) => setTimeout(res, ms))
     }
 
-    async function load() {
+    async function loadFilesGetKeys() {
       for (let i = 0; i < list.length; i += 1) {
         const str = list[i].data
         const removePrefix = ';base64,'
@@ -74,7 +76,7 @@ const FileUpload = () => {
       }
     }
 
-    load()
+    loadFilesGetKeys()
   }
 
   return (

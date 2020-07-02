@@ -71,3 +71,13 @@ export function replaceKeyword(id, words) {
 export function setMsg(text) {
   return { type: SET_MSG, text }
 }
+
+export function maxFilecount(e) {
+  const maxCount = 10
+  const arrayFiles = e.target.files
+  if (arrayFiles.length > maxCount) {
+    e.target.value = null
+    return true
+  }
+  return false
+}
