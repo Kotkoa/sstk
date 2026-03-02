@@ -1,7 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
 import { clearList, addList, replaceKeyword, setMsg, maxFilecount } from '../redux/reducers/states'
 
 const FileUpload = () => {
@@ -65,9 +64,12 @@ const FileUpload = () => {
         dispatch(replaceKeyword(i, 'Fetching the keywords'))
         if (i > 0) await timer(25000)
         try {
-          const { data: res } = await axios.post('/api/v1/keyword', {
-            url: slice2Uri
+          const response = await fetch('/api/v1/keyword', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: slice2Uri })
           })
+          const res = await response.json()
           const words = typeof res !== 'undefined' ? res.data.join(', ') : 'No respond'
           dispatch(replaceKeyword(i, words))
         } catch (err) {
